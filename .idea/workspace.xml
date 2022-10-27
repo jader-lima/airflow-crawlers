@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1639b1a8-751f-48f5-b0d0-e97be4deb05a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/airflow-crawlers.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dags/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/docker/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/plugins/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/plugins/hooks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/plugins/operators/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/spark/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dags/get_crypto.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dags/get_crypto.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dags/get_stocks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dags/get_stocks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dags/sample_dag.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dags/sample_dag.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dags/twitter_dag.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dags/twitter_dag.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/docker/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/docker-compose_bkp.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/docker/docker-compose_bkp.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/airflow_plugin.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/airflow_plugin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/hooks/twitter_hook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/hooks/twitter_hook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/operators/twitter_operator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugins/operators/twitter_operator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark/insight_tweet.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/spark/insight_tweet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark/transformation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/spark/transformation.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2Gisi6l0nQJxu8UYUYMmVvaqKdT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/home/jader/Documentos/projetos/airflow-crawlers/src/dags"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/dags" />
+      <recent name="$PROJECT_DIR$/src/plugins" />
+      <recent name="$PROJECT_DIR$/src/spark" />
+      <recent name="$PROJECT_DIR$/src/plugins/hooks" />
+      <recent name="$PROJECT_DIR$/src/plugins/operators" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1639b1a8-751f-48f5-b0d0-e97be4deb05a" name="Changes" comment="" />
+      <created>1666882862962</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666882862962</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

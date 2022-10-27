@@ -2,10 +2,11 @@ from datetime import datetime
 from os.path import join
 from pathlib import Path
 
-from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
+from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 from airflow.models import DAG
-from airflow.operators.alura import TwitterOperator
+from src.plugins.operators.twitter_operator import TwitterOperator
 from airflow.utils.dates import days_ago
+
 
 ARGS = {
     "owner": "airflow",
@@ -44,3 +45,23 @@ with DAG(
             "}}"
         )
     )
+
+
+    twitter_transform = SparkSubmitOperator(
+        task_id="transform_twitter_aluraonline",
+        application=join(
+            str(Path(__file__).parents[2]),
+            "spark/transformation.py"
+        ),
+        name="twitter_transformation",
+        application_args=[
+            "--src",
+            BASE_FOLDER.format(stage="bronze", partition=PARTITION_FOLDER),
+            "--dest",
+            BASE_FOLDER.format(stage="silver", partition=""),
+            "--process-date",
+            "{{ ds }}",
+        ]
+    )
+
+    twitter_operator >> twitter_transform

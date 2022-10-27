@@ -5,7 +5,9 @@ from os.path import join
 
 from airflow.models import DAG, BaseOperator, TaskInstance
 from airflow.utils.decorators import apply_defaults
-from hooks.twitter_hook import TwitterHook
+from src.plugins.hooks.twitter_hook import TwitterHook
+
+
 
 
 class TwitterOperator(BaseOperator):
