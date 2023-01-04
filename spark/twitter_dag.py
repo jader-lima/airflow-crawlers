@@ -7,6 +7,8 @@ from airflow.models import DAG
 from airflow.operators.alura import TwitterOperator
 from airflow.utils.dates import days_ago
 
+
+
 ARGS = {
     "owner": "airflow",
     "depends_on_past": False,
@@ -26,21 +28,21 @@ with DAG(
     schedule_interval="0 9 * * *",
     max_active_runs=1
 ) as dag:
-    twitter_operator = TwitterOperator(
-        task_id="twitter_aluraonline",
-        query="AluraOnline",
-        file_path=join(
+    spark_ingestion = SparkSubmitOperator(
+        task_id="spark_ingestion",
+        application=join(
+            str(Path(__file__).parents[2]),
+            "spark/ingestion.py"
+        ),
+        name="spark_ingestion",
+        application_args=[
+            "--src",
             BASE_FOLDER.format(stage="bronze", partition=PARTITION_FOLDER),
-            "AluraOnline_{{ ds_nodash }}.json"
-        ),
-        start_time=(
-            "{{"
-            f" execution_date.strftime('{ TIMESTAMP_FORMAT }') "
-            "}}"
-        ),
-        end_time=(
-            "{{"
-            f" next_execution_date.strftime('{ TIMESTAMP_FORMAT }') "
-            "}}"
-        )
+            "--dest",
+            BASE_FOLDER.format(stage="silver", partition=""),
+            "--process-date",
+            "{{ ds }}",
+        ]
     )
+    #args.src, args.dest, args.table_name ,args.src_format, args.dest_format , args.options_dict,  args.process_date
+    spark_ingestion
