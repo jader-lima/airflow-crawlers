@@ -54,17 +54,17 @@ spark_dag = DAG(
     schedule_interval="0 9 * * *",
     max_active_runs=1
 )
-
+#pyspark_app_home=Variable.get("PYSPARK_APP_HOME")
 spark_ingestion = SparkSubmitOperator(
         task_id="spark_ingestion",
         application=join(
             str(Path(__file__).parents[2]),
-            "spark/ingestion/ingestion.py"
+            "spark-apps/ingestion/ingestion.py"
         ),
         dag=spark_dag,
         name="spark_ingestion",
         conn_id="spark_default",
-        verbose=1,
+        verbose=1,        
         application_args=[
             "--src",
             SRC_FOLDER.format(stage="transient", file="teste"),
@@ -82,21 +82,23 @@ spark_ingestion = SparkSubmitOperator(
     )
 spark_ingestion
 
- #./bin/spark-submit --master spark://172.23.0.2:7077 --name spark_ingestion --verbose ~/Documentos/projetos/airflow-crawlers/spark/ingestion.py 
- #--src ~/datapipeline/datalake/transient/teste/ 
- #--dest ~/datapipeline/datalake/ 
- #--table_name teste 
- #--src_format csv 
- #--dest_format parquet 
- #--process-date 2022-11-15
+#docker exec -it airflow-crawlers-spark-master-1 spark-submit \
+#--master spark://airflow-crawlers-spark-master-1:7077 --name spark_ingestion \
+#--verbose /opt/spark-apps/ingestion/ingestion.py \
+#--src /opt/spark-data/datalake/transient/teste/ \
+#--dest /opt/spark-data/datalake/bronze/teste/extract_date=2022-12-30 \
+#--table_name teste \
+#--src_format csv \
+#--dest_format parquet \
+#--process_date 2022-11-15
 
-#Path does not exist: file:/opt/***/spark-data/datalake/transient/teste
-#park-submit --master spark://172.21.0.5:7077 --name spark_ingestion --verbose /opt/spark/ingestion/ingestion.py -
-# -src data/../spark-data/datalake/transient/teste/extract_date=2022-12-25 
-# --destat csv 
-# --dest_for data/../spark-data/datalake/bronze/teste/extract_date=2022-12-25 
-# --table_name teste 
-# --src_formmat parquet 
-# --process_date 2022-12-25.
-
-
+#conf={
+#            "spark.driver.port":"7001",
+#            "spark.fileserver.port":"7002", 
+#            "spark.broadcast.port":"7003",
+#            "spark.replClassServer.port":"7004", 
+#            "spark.blockManager.port":"7005",
+#            "spark.executor.port":"7006",
+#            "spark.ui.port":"4040",
+#            "spark.broadcast.factory":"org.apache.spark.broadcast.HttpBroadcastFactory"            
+#        },

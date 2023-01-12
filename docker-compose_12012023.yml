@@ -1,0 +1,121 @@
+---
+version: '3.4'
+x-airflow-common:
+  &airflow-common
+  image: jaderlima/airflow:1.0 #apache/airflow:2.3.0
+  user: "${AIRFLOW_UID}:0"
+  environment:
+    - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:postgres@postgres:5432/airflow
+    - AIRFLOW__CORE__FERNET_KEY=FB0o_zt4e3Ziq3LdUUO7F2Z95cvFFx16hU8jTeR1ASM=
+    - AIRFLOW__CORE__LOAD_EXAMPLES=True
+    - AIRFLOW__CORE__LOGGING_LEVEL=INFO
+  volumes:
+    - ./data:/opt/spark-data:rw
+    - ./spark:/opt/spark-apps
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    - ./stocks:/opt/airflow/stocks:rw
+    - /var/run/docker.sock:/var/run/docker.sock
+  depends_on:
+    - postgres
+
+services:
+  postgres:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=airflow
+      - POSTGRES_PORT=5432
+    ports:
+      - "5432:5432"
+
+  airflow-init:
+    << : *airflow-common
+    container_name: airflow_init
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - airflow users list || ( airflow db init &&
+        airflow users create
+          --role Admin
+          --username airflow
+          --password airflow
+          --email airflow@airflow.com
+          --firstname airflow
+          --lastname airflow )
+    restart: on-failure
+
+  airflow-webserver:
+    << : *airflow-common
+    command: airflow webserver
+    ports:
+      - 8080:8080
+    container_name: airflow_webserver
+    restart: always
+
+  airflow-scheduler:
+    << : *airflow-common
+    command: airflow scheduler
+    container_name: airflow_scheduler
+    restart: always
+
+  spark-master:    
+    image: cluster-apache-spark:3.1.2
+    ports:
+      - "9090:8081"
+      - "7077:7077"
+    volumes:
+      - ./spark:/opt/spark-apps
+      - ./data:/opt/spark-data:rw
+    environment:
+      - SPARK_LOCAL_IP=spark-master
+      - SPARK_WORKLOAD=master
+      - JAVA_HOME=/usr/local/openjdk-11
+      - SPARK_HOME=/opt/spark
+
+  spark-worker-a:    
+    image: cluster-apache-spark:3.1.2
+    ports:
+      - "9091:8081"
+      - "7000:7000"
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_DRIVER_MEMORY=1G
+      - SPARK_EXECUTOR_MEMORY=1G
+      - SPARK_WORKLOAD=worker
+      - SPARK_LOCAL_IP=spark-worker-a
+      - JAVA_HOME=/usr/local/openjdk-11
+      - SPARK_HOME=/opt/spark 
+    volumes:
+      - ./spark:/opt/spark-apps
+      - ./data:/opt/spark-data:rw
+
+  spark-worker-b:
+    image: cluster-apache-spark:3.1.2
+    ports:
+      - "9092:8081"
+      - "7001:7000"
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_DRIVER_MEMORY=1G
+      - SPARK_EXECUTOR_MEMORY=1G
+      - SPARK_WORKLOAD=worker
+      - SPARK_LOCAL_IP=spark-worker-b
+      - JAVA_HOME=/usr/local/openjdk-11
+      - SPARK_HOME=/opt/spark 
+    volumes:
+      - ./spark:/opt/spark-apps
+      - ./data:/opt/spark-data:rw
+networks:
+    default_net:

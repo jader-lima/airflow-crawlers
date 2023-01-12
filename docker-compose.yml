@@ -8,8 +8,8 @@ x-airflow-common:
   env_file: 
     - .env
   volumes:
-    - ./data:/opt/spark-data
-    - ./spark:/opt/spark
+    - ./data:/opt/spark-data    
+    - ./spark:/opt/spark-apps
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
@@ -28,7 +28,7 @@ x-airflow-common:
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    #AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
     TZ: America/Sao_Paulo
@@ -182,12 +182,13 @@ services:
       - "9090:8081"
       - "7077:7077"
     volumes:
-      - ./apps:/opt/spark-apps
+      - ./spark:/opt/spark-apps
       - ./data:/opt/spark-data
     environment:
       - SPARK_LOCAL_IP=spark-master
       - SPARK_WORKLOAD=master
       - JAVA_HOME=/usr/local/openjdk-11
+      - SPARK_HOME=/opt/spark
 
   spark-worker-a:
     image: cluster-apache-spark:3.1.2
@@ -205,9 +206,10 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-a
       - JAVA_HOME=/usr/local/openjdk-11
+      - SPARK_HOME=/opt/spark 
     volumes:
-      - ./apps:/opt/spark-apps
-      - ./data:/opt/spark-data
+      - ./spark:/opt/spark-apps
+      - ./data:/opt/spark-data  
 
   spark-worker-b:
     image: cluster-apache-spark:3.1.2
@@ -225,6 +227,7 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-b
       - JAVA_HOME=/usr/local/openjdk-11
+      - SPARK_HOME=/opt/spark 
     volumes:
-      - ./apps:/opt/spark-apps
+      - ./spark:/opt/spark-apps
       - ./data:/opt/spark-data
